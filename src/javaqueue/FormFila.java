@@ -1,11 +1,11 @@
 package javaqueue;
 import java.util.*;
+import javax.swing.JOptionPane;
 
 public class FormFila extends javax.swing.JFrame {
     Queue<Pessoa> filaNormal = new ArrayDeque<>();
     Queue<Pessoa> filaPrioridade = new ArrayDeque<>();
-
-    
+      
     public FormFila() {
         initComponents();
     }
@@ -17,7 +17,7 @@ public class FormFila extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        txtProx = new javax.swing.JLabel();
+        lblProx = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         txtNome = new javax.swing.JTextField();
         txtRG = new javax.swing.JTextField();
@@ -38,9 +38,9 @@ public class FormFila extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javaqueue/sistemas_info_logo_azul.png"))); // NOI18N
         jLabel1.setText("jLabel1");
 
-        txtProx.setFont(new java.awt.Font("Segoe UI Black", 0, 48)); // NOI18N
-        txtProx.setForeground(new java.awt.Color(255, 255, 255));
-        txtProx.setText("Prox:");
+        lblProx.setFont(new java.awt.Font("Segoe UI Black", 0, 48)); // NOI18N
+        lblProx.setForeground(new java.awt.Color(255, 255, 255));
+        lblProx.setText("Prox:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -50,7 +50,7 @@ public class FormFila extends javax.swing.JFrame {
                 .addGap(46, 46, 46)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 834, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(txtProx, javax.swing.GroupLayout.PREFERRED_SIZE, 542, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblProx, javax.swing.GroupLayout.PREFERRED_SIZE, 542, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -62,7 +62,7 @@ public class FormFila extends javax.swing.JFrame {
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(91, 91, 91)
-                        .addComponent(txtProx, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lblProx, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -138,6 +138,11 @@ public class FormFila extends javax.swing.JFrame {
         btnAtender.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
         btnAtender.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javaqueue/doctor-atend.png"))); // NOI18N
         btnAtender.setText("Atender");
+        btnAtender.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAtenderActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -193,7 +198,11 @@ public class FormFila extends javax.swing.JFrame {
             for(Pessoa p:filaNormal)
                 listFilaNormal.append(p+"\n");
         
-        
+        listFilaPreferencial.setText("");
+        if(!filaPrioridade.isEmpty())
+            for(Pessoa p:filaPrioridade)
+                listFilaPreferencial.append(p+"\n"); 
+             
             
     }
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
@@ -201,13 +210,29 @@ public class FormFila extends javax.swing.JFrame {
         p.setNome(txtNome.getText());
         p.setRg(txtRG.getText());
         p.setIdade(Integer.parseInt(txtIdade.getText()));
-        filaNormal.add(p);
-        mostra();
-        System.out.println(filaNormal); //
+        if (p.getIdade() < 60){
+            filaNormal.add(p);
+            mostra();       
+        }
+        else
+            filaPrioridade.add(p);      
+            mostra();        
+        System.out.println(filaPrioridade); //
         
         
         
     }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnAtenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtenderActionPerformed
+        if(!filaNormal.isEmpty()){
+            Pessoa p = new Pessoa();
+            p = filaNormal.remove(); //dequeue
+            lblProx.setText("Prox:" +p.getNome());                     
+            mostra();
+        }// fim do if
+        else 
+            JOptionPane.showMessageDialog(null, "Fila Vazia");       
+    }//GEN-LAST:event_btnAtenderActionPerformed
 
     
     public static void main(String args[]) {
@@ -251,11 +276,11 @@ public class FormFila extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblProx;
     private javax.swing.JTextArea listFilaNormal;
     private javax.swing.JTextArea listFilaPreferencial;
     private javax.swing.JTextField txtIdade;
     private javax.swing.JTextField txtNome;
-    private javax.swing.JLabel txtProx;
     private javax.swing.JTextField txtRG;
     // End of variables declaration//GEN-END:variables
 }

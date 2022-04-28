@@ -36,7 +36,7 @@ public class Pessoa {
     
     @Override
     public String toString(){
-        return getNome()+ ":" + getIdade();     
+        return "Nome: " + getNome()+ "\nRG: " + getRg()+ "\nIdade: " + getIdade();     
     }//fim toString
     
     
