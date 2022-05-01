@@ -5,7 +5,8 @@ import javax.swing.JOptionPane;
 public class FormFila extends javax.swing.JFrame {
     Queue<Pessoa> filaNormal = new ArrayDeque<>();
     Queue<Pessoa> filaPrioridade = new ArrayDeque<>();
-      
+    int cont = 0;  
+    
     public FormFila() {
         initComponents();
     }
@@ -216,22 +217,38 @@ public class FormFila extends javax.swing.JFrame {
         }
         else
             filaPrioridade.add(p);      
-            mostra();        
-        System.out.println(filaPrioridade); //
-        
-        
-        
+            mostra();
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnAtenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtenderActionPerformed
-        if(!filaNormal.isEmpty()){
+        if (!filaPrioridade.isEmpty()){
+            if (cont < 3) {
+            Pessoa p = new Pessoa();
+            p = filaPrioridade.remove(); //dequeue
+            lblProx.setText("Prox:" +p.getNome());                     
+            cont ++;
+            mostra();
+            
+        }// fim do if
+        else if(cont == 3){
             Pessoa p = new Pessoa();
             p = filaNormal.remove(); //dequeue
             lblProx.setText("Prox:" +p.getNome());                     
+            cont = 0;
             mostra();
-        }// fim do if
-        else 
-            JOptionPane.showMessageDialog(null, "Fila Vazia");       
+           } 
+        
+        } else {
+        Pessoa p = new Pessoa();
+            p = filaNormal.remove(); //dequeue
+            lblProx.setText("Prox:" +p.getNome());                     
+            cont = 0;
+            mostra();
+        }
+           
+            
+        
+                 
     }//GEN-LAST:event_btnAtenderActionPerformed
 
     
