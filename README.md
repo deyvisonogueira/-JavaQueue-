@@ -18,11 +18,11 @@
      Recursos
 </h3>
 
-✔️ Adicionar pessoa (nome, rg e idade) na filaNormal ou filaPrioridade(>60)
-✔️ Primeiro irá atender 3 pessoas da fila Prioridade
-✔️ Em seguida irá atender 1 pessoa da fila Normal
-✔️ Logo depois irá voltar a repetir o atendimento pela fila Prioridade
-✔️ E por fim se não tiver mais nínguém na fila Prioridade, irá atender o restante da fila normal
+-✔️ Adicionar pessoa (nome, rg e idade) na filaNormal ou filaPrioridade(>60)
+-✔️ Primeiro irá atender 3 pessoas da fila Prioridade
+-✔️ Em seguida irá atender 1 pessoa da fila Normal
+-✔️ Logo depois irá voltar a repetir o atendimento pela fila Prioridade
+-✔️ E por fim se não tiver mais nínguém na fila Prioridade, irá atender o restante da fila normal
 <hr>
 
 <h3 aling="right" <a name="requisito"></a>
