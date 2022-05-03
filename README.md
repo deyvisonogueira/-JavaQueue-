@@ -18,7 +18,7 @@
      Recursos
 </h3>
 
-- ✔️ Adicionar pessoa filaNormal ou filaPrioridade
+- ✔️ Adicionar pessoa filaNormal ou filaPrioridade(>60)
 - ✔️ Primeiro irá atender 3 pessoas da fila Prioridade
 - ✔️ Em seguida irá atender 1 pessoa da fila Normal
 - ✔️ Logo depois irá voltar a repetir o atendimento pela fila Prioridade
