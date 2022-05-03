@@ -45,7 +45,7 @@ Abra o NetBeans ou qualquer outro programa compativél com o projeto e baixe os 
    Tela inicial
  </h4>
 
-![Camada 4](https://user-images.githubusercontent.com/93131818/166461871-ed04c16d-77d2-4d7e-9d10-8f5883be2fd9.png)
+![TELA](https://user-images.githubusercontent.com/93131818/166574245-a4a0538f-274e-49c1-8042-c10d796a0fb3.png)
 
 <h3 aling="right" <a name="autor"></a>
    Autor
