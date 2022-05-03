@@ -1,16 +1,19 @@
 package javaqueue;
+
+import java.io.*;
 import java.util.*;
 import javax.swing.JOptionPane;
 
 public class FormFila extends javax.swing.JFrame {
-    Queue<Pessoa> filaNormal = new ArrayDeque<>();
-    Queue<Pessoa> filaPrioridade = new ArrayDeque<>();
-    int cont = 0;  
-    
+
+    Queue<Pessoa> filaNormal = new ArrayDeque<Pessoa>();
+    Queue<Pessoa> filaPrioridade = new ArrayDeque<Pessoa>();
+    int cont = 0;
+
     public FormFila() {
         initComponents();
+        carregaArquivo();
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -79,7 +82,6 @@ public class FormFila extends javax.swing.JFrame {
         txtIdade.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
         txtIdade.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Idade", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Light", 0, 18))); // NOI18N
 
-        btnAdd.setBackground(new java.awt.Color(255, 255, 255));
         btnAdd.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javaqueue/add-user.png"))); // NOI18N
         btnAdd.setText("Adicionar Pessoa");
@@ -102,7 +104,7 @@ public class FormFila extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(17, 17, 17)
                         .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(130, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -135,7 +137,6 @@ public class FormFila extends javax.swing.JFrame {
         listFilaPreferencial.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Fila Preferencial", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Light", 0, 24))); // NOI18N
         jScrollPane2.setViewportView(listFilaPreferencial);
 
-        btnAtender.setBackground(new java.awt.Color(255, 255, 255));
         btnAtender.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
         btnAtender.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javaqueue/doctor-atend.png"))); // NOI18N
         btnAtender.setText("Atender");
@@ -150,14 +151,14 @@ public class FormFila extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(244, 244, 244)
                 .addComponent(btnAtender, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(618, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -166,8 +167,8 @@ public class FormFila extends javax.swing.JFrame {
                 .addComponent(btnAtender, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -193,65 +194,94 @@ public class FormFila extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    void mostra(){
-        listFilaNormal.setText("");
-        if(!filaNormal.isEmpty())
-            for(Pessoa p:filaNormal)
-                listFilaNormal.append(p+"\n");
-        
-        listFilaPreferencial.setText("");
-        if(!filaPrioridade.isEmpty())
-            for(Pessoa p:filaPrioridade)
-                listFilaPreferencial.append(p+"\n"); 
-             
-            
+    private void carregaArquivo() {
+        String csvFile = "dados.csv";
+        String line = "";
+        String[] leitura = null;
+        try ( BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+            while ((line = br.readLine()) != null) {
+                Pessoa p = new Pessoa();
+                leitura = line.split(",");
+                System.out.println("Nome:" + leitura[0] + " RG= " + leitura[1] + " , Idade=" + leitura[2] + "");
+                p.setNome(leitura[0]);
+                p.setRg(leitura[1]);
+                int idade = (Integer.parseInt(leitura[2]));
+                p.setIdade(idade);
+                addFila(p); // separar
+            }// fim percurso no arquivo
+            mostra();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
+    void mostra() {
+        listFilaNormal.setText("");
+        if (!filaNormal.isEmpty()) {
+            for (Pessoa p : filaNormal) {
+                listFilaNormal.append(p + "\n");
+            }
+        }
+
+        listFilaPreferencial.setText("");
+        if (!filaPrioridade.isEmpty()) {
+            for (Pessoa p : filaPrioridade) {
+                listFilaPreferencial.append(p + "\n");
+            }
+        }
+    }
+
+    void addFila(Pessoa p) {
+        if (p.getIdade() < 60) {
+            filaNormal.add(p);
+        } else {
+            filaPrioridade.add(p);
+        }
+    }
+
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         Pessoa p = new Pessoa();
         p.setNome(txtNome.getText());
         p.setRg(txtRG.getText());
         p.setIdade(Integer.parseInt(txtIdade.getText()));
-        if (p.getIdade() < 60){
-            filaNormal.add(p);
-            mostra();       
-        }
-        else
-            filaPrioridade.add(p);      
-            mostra();
+        addFila(p); // separar
+        mostra();
+        System.out.println(filaNormal);// console
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnAtenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtenderActionPerformed
-        if (!filaPrioridade.isEmpty()){
-            if (cont < 3) {
-            Pessoa p = new Pessoa();
-            p = filaPrioridade.remove(); //dequeue
-            lblProx.setText("Prox:" +p.getNome());                     
-            cont ++;
-            mostra();
-            
-        }// fim do if
-        else if(cont == 3){
-            Pessoa p = new Pessoa();
-            p = filaNormal.remove(); //dequeue
-            lblProx.setText("Prox:" +p.getNome());                     
-            cont = 0;
-            mostra();
-           } 
-        
-        } else {
-        Pessoa p = new Pessoa();
-            p = filaNormal.remove(); //dequeue
-            lblProx.setText("Prox:" +p.getNome());                     
-            cont = 0;
-            mostra();
+        try {
+            if (!filaPrioridade.isEmpty()) {
+                if (cont < 3) {
+                    Pessoa p = new Pessoa();
+                    p = filaPrioridade.remove(); //dequeue             
+                    lblProx.setText("Prox:" + p.getNome());
+                    cont++;
+                    mostra();
+                }// fim do if         
+                else if (cont == 3) {
+                    Pessoa p = new Pessoa();
+                    p = filaNormal.remove(); //dequeue             
+                    lblProx.setText("Prox:" + p.getNome());
+                    cont = 0;
+                    mostra();
+                }
+            } else {
+                Pessoa p = new Pessoa();
+                p = filaNormal.remove(); //dequeue             
+                lblProx.setText("Prox:" + p.getNome());
+                cont = 0;
+                mostra();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Todos atendidos");
         }
-           
-            
-        
-                 
+
     }//GEN-LAST:event_btnAtenderActionPerformed
 
-    
+    /**
+     * @param args the command line arguments
+     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
